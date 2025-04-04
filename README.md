@@ -21,5 +21,9 @@ then unzip the file which can be done in the terminal with $ unzip protoc-30.2-l
 After that, add it to the path by moving the protoc file from ~/Downloads/protoc-30.2/bin to the ~/bin and copy over the include folder usin $ cp -r protoc-30.2/include /usr/local/ $
 Ensure that it works by runnin $ protoc --version $ on your terminal
 
+Then create a build file like this in calculator_tutorial/build.rs
+
+I did a lot in main that I dont understand Ill ask ai about that 
+
 If you dont know what is going on in that file then he has another video about grpcs in general
 
