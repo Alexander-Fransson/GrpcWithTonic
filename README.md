@@ -23,7 +23,10 @@ Ensure that it works by runnin $ protoc --version $ on your terminal
 
 Then create a build file like this in calculator_tutorial/build.rs
 
-I did a lot in main that I dont understand Ill ask ai about that 
+After that I included the calculatro protobuf in the proto module crated in src/main.rs and implemented the calculator service and served it in main.
+
+Next we need reflection which is the ability for a service to communicate its grpc contracts to clients which eliminates the need of a client to have the protobuf definition. To do that we need the tonic-reflection crate. Then in /build.rs some code was added to make the out dir generate a file descriptor set. Then in the proto mod in main we include the file descriptor set as a const.
+Then in src/main.rs a service is created which relays the description siet to clients. 
 
 If you dont know what is going on in that file then he has another video about grpcs in general
 
