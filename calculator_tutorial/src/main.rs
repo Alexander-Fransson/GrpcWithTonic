@@ -16,6 +16,10 @@ use proto::calculator_server::{
 use proto::admin_server::{Admin, AdminServer};
 use tonic::transport::Server;
 
+// for middlewares
+use tonic::metadata::MetadataValue;
+use tonic::{Request, Status};
+
 // thread safe value which can be shared between threads
 type State = std::sync::Arc<tokio::sync::RwLock<u64>>;
 
@@ -53,6 +57,15 @@ impl Admin for AdminService {
     }
 }
 
+// an interceptor checking for token
+fn check_auth(req:Request<()>) -> Result<Request<()>, Status> {
+    let token: MetadataValue<_> = "Bearer some secret token".parse().unwrap();
+
+    match req.metadata().get("authorization") {
+        Some(t) if token == t => Ok(req),
+        _ => Err(Status::unauthenticated("invalid token"))
+    }    
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -75,9 +88,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     .build_v1()?;
 
     Server::builder()
+    .accept_http1(true)
+    .layer(tower_http::cors::CorsLayer::permissive())
     .add_service(service)
     .add_service(CalculatorServer::new(calc))
-    .add_service(AdminServer::new(admin))
+
+    // adds the admin service with an interceptor middleware
+    .add_service(AdminServer::with_interceptor(admin, check_auth))
     .serve(addr)
     .await?;
 

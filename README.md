@@ -25,6 +25,8 @@ Then create a build file like this in calculator_tutorial/build.rs
 
 After that I included the calculatro protobuf in the proto module crated in src/main.rs and implemented the calculator service and served it in main.
 
+### Day2 
+
 Next we need reflection which is the ability for a service to communicate its grpc contracts to clients which eliminates the need of a client to have the protobuf definition. To do that we need the tonic-reflection crate. Then in /build.rs some code was added to make the out dir generate a file descriptor set. Then in the proto mod in main we include the file descriptor set as a const.
 Then in src/main.rs a service is created which relays the description set to clients.
 
@@ -35,6 +37,10 @@ Then we in /src/main.rs we add a divide function to the implementation of the ca
 Crucially we return an error containing a tonic status to handle a division zero error to pervent the function from panicing. To demonstrate we also added a division reqest in calculator_tutorial/src/client.rs
 
 To demonstrate tonics handling of state we create an arc read write type called state in main and then add a parameter called uses to the Calculator service struct. We the create an increment function and use it in both request implementations. Then we create a new service in calculator_tutorial/proto/calculator.proto whereafter we implement it in src/main.rs and share the state in the main function. Dont forget to add async trait on the implementation of the service trait. The I tested the code in client.rs. 
+
+Then to demonstrate middleware aka interceptors we create a function whoch takes a tonic request and returns one too and checks the metadata or something in that request. Then instead of server::new in the server builder we add server::with_interceptor(service, interceptor) to have that interceptor run before the handler. A con however is that interceptors cannot be async. We also add the metadata in src/client.rs.
+
+To run grpc on the web without a proxy server or such we add the tonic-wenb and tower-http -F cors crates. Add accept_http1 and a cors layer from tower to enable cors and it should be accessable from a frontend.
 
 If you dont know what is going on in that file then he has another video about grpcs in general
 

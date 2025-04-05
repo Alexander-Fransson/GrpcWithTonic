@@ -22,8 +22,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // test admin
 
+
+    
     let req = proto::RequestCountRequest {};
-    let request = tonic::Request::new(req);
+    let mut request = tonic::Request::new(req);
+
+    // insert metadata
+    request.metadata_mut().insert("authorization", "Bearer some secret token".parse().unwrap());
 
     let mut admin_clint = proto::admin_client::AdminClient::connect(url).await?;
 
