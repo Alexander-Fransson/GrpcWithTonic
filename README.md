@@ -44,3 +44,9 @@ To run grpc on the web without a proxy server or such we add the tonic-wenb and 
 
 If you dont know what is going on in that file then he has another video about grpcs in general
 
+## Login Server
+
+### Database
+
+//* add tokio -F full
+* create docker compose file in login_server/db/docker-compose.yml
