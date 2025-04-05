@@ -26,7 +26,15 @@ Then create a build file like this in calculator_tutorial/build.rs
 After that I included the calculatro protobuf in the proto module crated in src/main.rs and implemented the calculator service and served it in main.
 
 Next we need reflection which is the ability for a service to communicate its grpc contracts to clients which eliminates the need of a client to have the protobuf definition. To do that we need the tonic-reflection crate. Then in /build.rs some code was added to make the out dir generate a file descriptor set. Then in the proto mod in main we include the file descriptor set as a const.
-Then in src/main.rs a service is created which relays the description siet to clients. 
+Then in src/main.rs a service is created which relays the description set to clients.
+
+I then define the bins in cargo.toml, one for server which is src/main and one for client which is in src/client. This will specify two binaries so when you run $ cargo run --bin server $ it will run the server and when you run $ cargo run --bin client $ it will cun the code in /src/client.rs which generates a grpc request.
+
+Next to demonstrate error hadling we add a devide method to the grpc. Incalculator_tutorial/proto/calculator.proto we add a divide rpc to the calculator service.
+Then we in /src/main.rs we add a divide function to the implementation of the calculator service.
+Crucially we return an error containing a tonic status to handle a division zero error to pervent the function from panicing. To demonstrate we also added a division reqest in calculator_tutorial/src/client.rs
+
+To demonstrate tonics handling of state we create an arc read write type called state in main and then add a parameter called uses to the Calculator service struct. We the create an increment function and use it in both request implementations. Then we create a new service in calculator_tutorial/proto/calculator.proto whereafter we implement it in src/main.rs and share the state in the main function. Dont forget to add async trait on the implementation of the service trait. The I tested the code in client.rs. 
 
 If you dont know what is going on in that file then he has another video about grpcs in general
 

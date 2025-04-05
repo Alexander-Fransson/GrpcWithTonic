@@ -13,3 +13,11 @@ tonic-reflection = "0.13.0"
 [build-dependencies]
 prost-build = "0.13.5"
 tonic-build = "0.13.0"
+
+[[bin]]
+name = "server"
+path = "src/main.rs"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"
