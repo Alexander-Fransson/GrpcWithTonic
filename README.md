@@ -50,3 +50,9 @@ If you dont know what is going on in that file then he has another video about g
 
 //* add tokio -F full
 * create docker compose file in login_server/db/docker-compose.yml
+* create connection string env variables in login_server/.cargo/config.toml
+* make functions to get env variables in login_server/src/get_env.rs
+* add tokio -F full and sqlx -F "postgres", "runtime-tokio-rustls", "uuid" and "time"
+* create sql files in login_server/db/sql
+* create main error and publically use it in main
+* create data_access module with db_setup with mod and tests
