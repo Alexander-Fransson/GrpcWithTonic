@@ -6,6 +6,8 @@ edition = "2024"
 [dependencies]
 sqlx = { version = "0.8.3", features = ["postgres", "runtime-tokio-rustls", "uuid", "time"] }
 tokio = { version = "1.44.2", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 
 [dev-dependencies]
 serial_test = "3.2.0"

@@ -59,3 +59,11 @@ If you dont know what is going on in that file then he has another video about g
 * create the tests for db setup in login_server/src/data_access/db_setup/tests.rs
 * create a data access manager in login_server/src/data_access/mod.rs to hold the server state
 * use the data access manager to create the server_server function in main 
+
+### Setting up tracing
+
+* add tracing and tracing-subscriber -F env-filter crates
+* create module log and tracing inside and create enable tracing function
+* run function enable_tracing in main
+
+###
