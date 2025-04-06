@@ -1,6 +1,7 @@
 [env]
 
-RUST_LOG = "debug"
+# to only log from this crate
+RUST_LOG = "login_server=debug" 
 
 # DB
 DB_CONNECTION_STRING = "postgres://postgres_user:super_secret_password@localhost:5011/test_db"

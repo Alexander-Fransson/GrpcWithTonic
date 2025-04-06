@@ -7,6 +7,7 @@ use crate::{Error, Result};
 use crate::get_env::get_env_static;
 use std::fs;
 use std::time::Duration;
+use tracing::info;
 
 
 pub async fn make_migrations(pool: &Pool<Postgres>) -> Result<()> {
@@ -16,7 +17,7 @@ pub async fn make_migrations(pool: &Pool<Postgres>) -> Result<()> {
     .await
     .map_err(|e| Error::MigrationFailed(e))?;
 
-    //info!("created migrations");
+    info!("created migrations");
 
     Ok(())
 }
@@ -38,7 +39,7 @@ pub async fn _reset_db() -> Result<()> {
         .map_err(|e| Error::QueryFailed(e))?;
     }
 
-    //info!("reset db");
+    info!("reset db");
 
     Ok(())
 }
@@ -51,7 +52,7 @@ pub async fn create_connection_pool(connection_string: &str) -> Result<Pool<Post
     .await
     .map_err(|e| Error::QueryFailed(e))?;
 
-    //info!("created connection pool");
+    info!("created connection pool");
 
     Ok(pool)
 }

@@ -3,16 +3,18 @@ mod error;
 mod get_env;
 mod log;
 
-use data_access::DataAccessManager;
 pub use error::{Error, Result};
+
+use data_access::DataAccessManager;
 use log::tracing::enable_tracing;
+use tracing::info;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     enable_tracing();
     serve_server().await?;
     
-    println!("Hello, world!");
+    info!("Hello, world!");
 
     Ok(())
 }

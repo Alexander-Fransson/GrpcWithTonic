@@ -65,5 +65,6 @@ If you dont know what is going on in that file then he has another video about g
 * add tracing and tracing-subscriber -F env-filter crates
 * create module log and tracing inside and create enable tracing function
 * run function enable_tracing in main
+* also set RUST_LOG in login_server/.cargo/config.toml
 
 ###
