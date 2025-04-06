@@ -46,9 +46,8 @@ If you dont know what is going on in that file then he has another video about g
 
 ## Login Server
 
-### Database
+### Database Access
 
-//* add tokio -F full
 * create docker compose file in login_server/db/docker-compose.yml
 * create connection string env variables in login_server/.cargo/config.toml
 * make functions to get env variables in login_server/src/get_env.rs
@@ -56,3 +55,7 @@ If you dont know what is going on in that file then he has another video about g
 * create sql files in login_server/db/sql
 * create main error and publically use it in main
 * create data_access module with db_setup with mod and tests
+* add the crate serial_test as a dev dependency
+* create the tests for db setup in login_server/src/data_access/db_setup/tests.rs
+* create a data access manager in login_server/src/data_access/mod.rs to hold the server state
+* use the data access manager to create the server_server function in main 

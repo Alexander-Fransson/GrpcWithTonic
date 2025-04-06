@@ -3,7 +3,12 @@ pub type Result<T> = core::result::Result<T, Error>;
 
 #[derive(Debug)]
 pub enum Error {
-    
+
+    // data access
+    FailedToReadFiles(String),
+    QueryFailed(sqlx::Error),
+    MigrationFailed(sqlx::migrate::MigrateError),
+
     // env
     FailedToGetEnvVar(String),
 
