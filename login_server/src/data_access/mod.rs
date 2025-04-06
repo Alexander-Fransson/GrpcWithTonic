@@ -1,4 +1,5 @@
 mod db_setup;
+mod base_crud;
 
 use db_setup::{_reset_db, create_service_user_connection_pool, make_migrations};
 use sqlx::{Pool, Postgres};

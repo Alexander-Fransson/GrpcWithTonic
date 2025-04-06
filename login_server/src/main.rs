@@ -2,6 +2,7 @@ mod data_access;
 mod error;
 mod get_env;
 mod log;
+mod utils;
 
 pub use error::{Error, Result};
 

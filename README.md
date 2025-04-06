@@ -67,4 +67,14 @@ If you dont know what is going on in that file then he has another video about g
 * run function enable_tracing in main
 * also set RUST_LOG in login_server/.cargo/config.toml
 
-###
+### Standard Create Read and Delete functions
+
+* create utils module in login_server/src/utils/mod.rs
+* create a proc-macro library in utils folder with $ cargo new proc-macros --lib $
+* cd into the proc-macros folder and add quite and syn crates
+* create derive macros .../proc-macros/src/lib.rs for getting struct fields and to_hashmap
+* create a coresponding trait as the derive macro in login_server/src/utils/traits.rs
+* specify the proc-macros crate as a dependency in login_server/Cargo.toml
+
+
+* crate base crud module in login_server/src/data_access/base_crud.rs
