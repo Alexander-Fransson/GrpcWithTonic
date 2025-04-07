@@ -1,5 +1,6 @@
 mod db_setup;
 mod base_crud;
+mod user_controller;
 
 use db_setup::{_reset_db, create_service_user_connection_pool, make_migrations};
 use sqlx::{Pool, Postgres};
@@ -21,6 +22,10 @@ impl DataAccessManager {
        Ok(Self {
            db_connection
        })
+    }
+
+    pub (in crate::data_access) fn connect(&self) -> &Pool<Postgres> {
+        &self.db_connection
     }
 }
 

@@ -4,7 +4,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::DeriveInput;
 
-#[proc_macro_derive(StructFieldsAsStrings)]
+#[proc_macro_derive(FieldsAsStrings)]
 pub fn get_struct_fields(input: TokenStream) -> TokenStream {
     
     // turn the input into a syntax tree
@@ -26,7 +26,7 @@ pub fn get_struct_fields(input: TokenStream) -> TokenStream {
 
     // generate the impl
     quote! {
-        impl StructFieldsAsStrings for #the_struct {
+        impl FieldsAsStrings for #the_struct {
             fn get_struct_fields() -> Vec<&'static str> {
                 vec![#(#struct_fields),*]
             }

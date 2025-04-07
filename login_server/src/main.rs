@@ -3,6 +3,7 @@ mod error;
 mod get_env;
 mod log;
 mod utils;
+mod views;
 
 pub use error::{Error, Result};
 

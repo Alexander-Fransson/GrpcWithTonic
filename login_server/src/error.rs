@@ -8,6 +8,7 @@ pub enum Error {
     FailedToReadFiles(String),
     QueryFailed(sqlx::Error),
     MigrationFailed(sqlx::migrate::MigrateError),
+    EntityNotFound,
 
     // env
     FailedToGetEnvVar(String),

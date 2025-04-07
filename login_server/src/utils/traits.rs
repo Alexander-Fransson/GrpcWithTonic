@@ -2,8 +2,8 @@
 
 use std::collections::HashMap;
 
-pub use proc_macros::StructFieldsAsStrings;
-pub trait StructFieldsAsStrings {
+pub use proc_macros::FieldsAsStrings;
+pub trait FieldsAsStrings {
     fn get_struct_fields() -> Vec<&'static str>;
 }
 

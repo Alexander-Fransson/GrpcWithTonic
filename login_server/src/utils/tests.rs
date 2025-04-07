@@ -1,4 +1,4 @@
-use crate::utils::traits::{AsHashMap, StructFieldsAsStrings};
+use crate::utils::traits::{AsHashMap, FieldsAsStrings};
 use std::collections::HashMap;
 // figure out how to just have to import StructFieldsAsStrings once
 // also make a to hashmap function
@@ -6,7 +6,7 @@ use std::collections::HashMap;
 #[test]
 fn get_struct_fields_ok() {
     
-    #[derive(StructFieldsAsStrings)]    
+    #[derive(FieldsAsStrings)]    
     struct Foo {
         _a: i32,
         _b: i32,
