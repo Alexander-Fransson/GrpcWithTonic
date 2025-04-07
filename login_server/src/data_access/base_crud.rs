@@ -48,6 +48,8 @@ where
 
     let sql = format!("INSERT INTO {} ({}) VALUES ({}) RETURNING id", C::TABLE_NAME, keys.join(", "), values.join(", "));
 
+    println!("sql: {}", sql);
+
     let (id,) = sqlx::query_as::<_, (Uuid,)>(&sql)
     .fetch_one(connection)
     .await
