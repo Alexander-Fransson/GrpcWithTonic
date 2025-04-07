@@ -9,7 +9,7 @@ mod tests;
 pub struct UserController;
 
 impl Controller for UserController {
-    const TABLE_NAME: &'static str = "\"user\"";
+    const TABLE_NAME: &'static str = "\"user\""; // quotation marks are important for sql
 }
 
 impl UserController {
