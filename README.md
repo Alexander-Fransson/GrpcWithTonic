@@ -82,3 +82,15 @@ If you dont know what is going on in that file then he has another video about g
 * also create views for your table as in login_server/src/views/user.rs
 * creates tests as in login_server/src/data_access/user_controller/tests.rs
 
+### Make test scripts
+
+* install cargo make with $ cargo install cargo-make $
+* create a make file like in login_server/Makefile.toml
+
+
+### Encryption functions
+
+### Login and Register functions
+
+### gRPC with layers and middlewars
+

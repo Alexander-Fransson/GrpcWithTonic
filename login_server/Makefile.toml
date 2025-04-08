@@ -1,0 +1,9 @@
+[tasks.utils_test]
+command = "cargo"
+description = "run tests in utils module"
+args = ["test", "--", "utils::tests::"]
+
+[tasks.data_access_test]
+command = "cargo"
+description = "run tests in data_access module"
+args = ["test", "--", "data_access::"]
