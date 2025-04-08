@@ -15,7 +15,9 @@ pub enum Error {
     FailedToHashPassword(String),
     PasswordInvalid,
     FailedToCreateMacKey(String),
-    TokenWrongFormat,
+    JwtTokenWrongFormat,
+    InvalidJwtTokenSignature,
+    JwtTokenExpired,
 
     //utils
     FailedToDecodeB64(String),

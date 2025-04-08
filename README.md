@@ -102,7 +102,11 @@ If you dont know what is going on in that file then he has another video about g
 * create encrypt with black2b function like in login_server/src/crypt/mod.rs
 * create jwt struct and implement from str and display like in login_server/src/crypt/jwt.rs
 * create time utils like in login_server/src/utils/time.rs
-* make create jwt token and validate functions like ...
+* make create jwt token, signature and validate functions like login_server/src/crypt/jwt.rs
+* add a token key and durration to env like in login_server/.cargo/config.toml
+* get the env variables and extract them in appropriate format like in login_server/src/get_env.rs
+* implement new and validate jwt token functions like in login_server/src/crypt/jwt.rs
+* test the jwt functions like in 
 
 
 ### Login and Register functions
