@@ -86,9 +86,16 @@ If you dont know what is going on in that file then he has another video about g
 
 * install cargo make with $ cargo install cargo-make $
 * create a make file like in login_server/Makefile.toml
-
+// Im thinking of maybe creating a function that starts and stops the db
+//  but It will probably be a timing hassle
 
 ### Encryption functions
+
+* create crypt module like login_server/src/crypt/mod.rs
+* add argon2 crate
+* create function to hash password like in login_server/src/crypt/mod.rs
+* create public functions to validate and encrypt passwords like login_server/src/crypt/password.rs
+* test password encryption and validation
 
 ### Login and Register functions
 

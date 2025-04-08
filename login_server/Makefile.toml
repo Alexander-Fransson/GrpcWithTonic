@@ -7,3 +7,8 @@ args = ["test", "--", "utils::tests::"]
 command = "cargo"
 description = "run tests in data_access module"
 args = ["test", "--", "data_access::"]
+
+[tasks.crypt_test]
+command = "cargo"
+description = "run tests in crypt module"
+args = ["test", "--", "crypt::tests::"]

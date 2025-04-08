@@ -4,6 +4,7 @@ mod get_env;
 mod log;
 mod utils;
 mod views;
+mod crypt;
 
 pub use error::{Error, Result};
 

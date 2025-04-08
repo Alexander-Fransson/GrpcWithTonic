@@ -10,6 +10,11 @@ pub enum Error {
     MigrationFailed(sqlx::migrate::MigrateError),
     EntityNotFound,
 
+    // crypt
+    FailedToCreateSaltString(String),
+    FailedToHashPassword(String),
+    PasswordInvalid,
+
     // env
     FailedToGetEnvVar(String),
 
