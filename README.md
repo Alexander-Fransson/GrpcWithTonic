@@ -95,7 +95,15 @@ If you dont know what is going on in that file then he has another video about g
 * add argon2 crate
 * create function to hash password like in login_server/src/crypt/mod.rs
 * create public functions to validate and encrypt passwords like login_server/src/crypt/password.rs
-* test password encryption and validation
+* test password encryption and validation like in login_server/src/crypt/tests.rs
+
+* add blake2, time and base64 crates
+* create base64 utils like in login_server/src/utils/base64.rs
+* create encrypt with black2b function like in login_server/src/crypt/mod.rs
+* create jwt struct and implement from str and display like in login_server/src/crypt/jwt.rs
+* create time utils like in login_server/src/utils/time.rs
+* make create jwt token and validate functions like ...
+
 
 ### Login and Register functions
 

@@ -14,12 +14,20 @@ pub enum Error {
     FailedToCreateSaltString(String),
     FailedToHashPassword(String),
     PasswordInvalid,
+    FailedToCreateMacKey(String),
+    TokenWrongFormat,
+
+    //utils
+    FailedToDecodeB64(String),
+    FailedToDecodeB64Bytes(String),
+    FailedToFormtOffsetDateTime(String),
+    FailedToParseOffsetDateTime(String),
 
     // env
     FailedToGetEnvVar(String),
 
     // general
-    FailedToParse(&'static str),
+    FailedToParse(String),
 }
 
 impl core::fmt::Display for Error {

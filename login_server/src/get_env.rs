@@ -34,5 +34,5 @@ fn get_var_from_env(name: &'static str) -> Result<String> {
 fn get_var_from_env_parsed<T: FromStr>(name: &'static str) -> Result<T> {
     let val = get_var_from_env(name)?;
 
-    val.parse::<T>().map_err(|_| Error::FailedToParse("env var"))
+    val.parse::<T>().map_err(|_| Error::FailedToParse("env var".to_string()))
 }

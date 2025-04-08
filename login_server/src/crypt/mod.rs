@@ -1,13 +1,18 @@
 #[cfg(test)]
 mod tests;
 mod password;
+mod jwt;
 
 use argon2::{
     password_hash::SaltString, 
     Argon2,
     PasswordHasher
 };
-
+use blake2::{
+    digest::Mac, 
+    Blake2bMac512
+};
+use crate::utils::base64::u8_to_b64;
 use crate::{Error, Result};
 
 #[derive(Debug)]
@@ -35,3 +40,18 @@ fn hash_password_argon2(content: &EncryptionContent) -> Result<String> {
     Ok(hash.to_string())
 }
 
+fn encrypt_blake_2b_mac_512(key: &[u8], content: &EncryptionContent) -> Result<String> {
+
+    let EncryptionContent {content, salt} = content;
+
+    let mut hasher = Blake2bMac512::new_from_slice(key)
+    .map_err(|e| Error::FailedToCreateMacKey(e.to_string()))?;
+
+    hasher.update(content.as_bytes());
+    hasher.update(salt.as_bytes());
+
+    let result_bytes = hasher.finalize().into_bytes();
+    let b64_result = u8_to_b64(&result_bytes);
+
+    Ok(b64_result)
+}

@@ -15,6 +15,9 @@ tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 proc-macros = { path="./src/utils/proc-macros" }
 uuid = { version = "1.16.0", features = ["v4"] }
 argon2 = "0.5.3"
+blake2 = "0.10.6"
+base64 = "0.22.1"
+time = "0.3.41"
 
 [dev-dependencies]
 serial_test = "3.2.0"
