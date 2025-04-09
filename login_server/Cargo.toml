@@ -18,6 +18,11 @@ argon2 = "0.5.3"
 blake2 = "0.10.6"
 base64 = "0.22.1"
 time = "0.3.41"
+tonic = "0.13.0"
+prost = "0.13.5"
 
 [dev-dependencies]
 serial_test = "3.2.0"
+
+[build-dependencies]
+tonic-build = "0.13.0"

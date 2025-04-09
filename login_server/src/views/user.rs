@@ -47,6 +47,12 @@ pub struct UserForCreate {
     pub encryption_salt: Uuid
 }
 
+pub struct UserForRegister {
+    pub name: String,
+    pub email: String,
+    pub password: String,
+}
+
 #[derive(Debug, Clone)]
 pub struct UserForLogin {
     pub email: String,

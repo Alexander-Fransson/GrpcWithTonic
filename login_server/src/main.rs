@@ -5,6 +5,11 @@ mod log;
 mod utils;
 mod views;
 mod crypt;
+mod grpc;
+
+mod proto {
+    tonic::include_proto!("login_server");
+}
 
 pub use error::{Error, Result};
 

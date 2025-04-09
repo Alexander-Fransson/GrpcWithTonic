@@ -12,6 +12,9 @@ I creaate the calculator_tutorial project with cargo
 THen I add the tonic, tokio and prost crate
 Then I add tonic build as a build dependency with $ cargo add tonic-build --build $
 Then I create a protobuf definition by creating a proto folder and a protofile like calculator_tutorial/proto/calculator.proto
+
+
+
 For language support I installed proto-3 as a vscode addon
 
 For grpc to work you need to install protobuf on your system
@@ -20,9 +23,7 @@ Download a file that matches your requirements I chose protoc-30.2-linux-x86_64.
 then unzip the file which can be done in the terminal with $ unzip protoc-30.2-linux-x86_64.zip -d protoc-30.2 $
 After that, add it to the path by moving the protoc file from ~/Downloads/protoc-30.2/bin to the ~/bin and copy over the include folder usin $ cp -r protoc-30.2/include /usr/local/ $
 Ensure that it works by runnin $ protoc --version $ on your terminal
-
 Then create a build file like this in calculator_tutorial/build.rs
-
 After that I included the calculatro protobuf in the proto module crated in src/main.rs and implemented the calculator service and served it in main.
 
 ### Day2 
@@ -119,7 +120,17 @@ If you dont know what is going on in that file then he has another video about g
 * create register function like in login_server/src/data_access/user_controller/mod.rs
 * create user for login and validation structs in login_server/src/views/user.rs
 * create login function like in login_server/src/data_access/user_controller/mod.rs
-* test the new login and register functions like in login_server/src/data_access/user_controller/tests.rs
+* test like in login_server/src/data_access/user_controller/tests.rs
 
-### gRPC with layers and middlewars
+### gRPC
+
+* add tonic and prost with cargo as I already have protobufs installed
+* add tonic build as a build dependency with $ cargo add tonic-build --build $
+* create the auth protobuf definition like login_server/proto/login_server.proto
+// something cool would be a proc-macro that generated an automatic probuf definition form structs
+* create a buld file like login_server/build.rs
+* include the protobuf like in login_server/src/main.rs
+* 
+
+### Add middlewares to grpc
 

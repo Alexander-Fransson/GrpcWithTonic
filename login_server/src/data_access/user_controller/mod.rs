@@ -1,11 +1,10 @@
 use uuid::Uuid;
-use crate::crypt::{
-    EncryptionContent,
+use crate::{crypt::{
     password::{
         hash_password,
         validate_password
-    }
-};
+    }, EncryptionContent
+}, views::user::UserForRegister};
 use crate::utils::base64::str_to_base_64;
 use crate::utils::traits::FieldsAsStrings;
 use crate::{Result, Error};
@@ -13,7 +12,6 @@ use crate::views::user::{
     GettableUser, 
     UserForAuth, 
     UserForCreate, 
-    UserForGet, 
     UserForLogin, 
     UserForValidate
 };
@@ -33,7 +31,8 @@ impl Controller for UserController {
 
 impl UserController {
 
-    pub async fn register(dam: &DataAccessManager, user: UserForCreate) -> Result<UserForAuth> {
+    pub async fn register(dam: &DataAccessManager, user: UserForRegister) -> Result<UserForAuth> {
+        
         let pwd_salt = Uuid::new_v4();
         let b64_pwd_salt = str_to_base_64(&pwd_salt.to_string());
         let enc_content = EncryptionContent {

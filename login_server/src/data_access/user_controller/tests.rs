@@ -1,18 +1,17 @@
 use crate::data_access::_get_data_access_manager_instance_for_tests;
 use crate::Result;
-use crate::views::user::{FullUser, UserForCreate};
+use crate::views::user::{FullUser, UserForCreate, UserForGet};
 use super::*;
 use serial_test::serial;
 
 const TEST_EMAIL: &str = "aadawfawfaknwalkjgnwangagjnkawnjgkajfnkajds,mnfaf_unique_email@example.com";
 const TEST_PASSWORD: &str = "test_password";
 
-fn generate_user_for_register() -> UserForCreate {
-    UserForCreate {
+fn generate_user_for_register() -> UserForRegister {
+    UserForRegister {
         name: "test_user".to_string(),
         email: TEST_EMAIL.to_string(),
         password: TEST_PASSWORD.to_string(),
-        encryption_salt: Uuid::new_v4()
     }
 }
 
@@ -82,6 +81,13 @@ async fn login_user_ok() -> Result<()> {
 async fn create_get_delete_user_ok() -> Result<()> {
 
     let user = generate_user_for_register();
+    
+    let user = UserForCreate{
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        encryption_salt: Uuid::new_v4()
+    };
 
     let dam = _get_data_access_manager_instance_for_tests().await;
     let create_req: UserForGet = UserController::create(&dam, user.clone()).await?;

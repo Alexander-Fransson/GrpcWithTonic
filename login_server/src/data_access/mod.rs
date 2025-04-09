@@ -7,6 +7,8 @@ use sqlx::{Pool, Postgres};
 use crate::Result;
 use tokio::sync::OnceCell;
 
+pub use user_controller::UserController;
+
 #[derive(Clone)]
 pub struct DataAccessManager {
     db_connection: Pool<Postgres>
