@@ -9,4 +9,4 @@ DB_DEFAULT_USER_CONNECTION_STRING = "postgres://madeup_default_user:super_secret
 
 # jwt
 JWT_KEY = "kL1sZs0d9yFjE9CnLq1B9PYLyD7fLzAHPYm5GwaJmQo="
-JWT_TOKEN_DURRATION_SEC = "3000"
+JWT_DURRATION_SEC = "3000"

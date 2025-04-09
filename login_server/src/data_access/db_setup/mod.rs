@@ -46,8 +46,8 @@ pub async fn _reset_db() -> Result<()> {
 
 pub async fn create_connection_pool(connection_string: &str) -> Result<Pool<Postgres>> {
     let pool =PgPoolOptions::new()
-    .max_connections(20) // if pool times out in tests, increase this
-    .acquire_timeout(Duration::from_secs(15)) // or this
+    .max_connections(30) // if pool times out in tests, increase this
+    .acquire_timeout(Duration::from_secs(60)) // or this
     .connect(connection_string)
     .await
     .map_err(|e| Error::QueryFailed(e))?;

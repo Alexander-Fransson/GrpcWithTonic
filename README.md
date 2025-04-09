@@ -69,6 +69,7 @@ If you dont know what is going on in that file then he has another video about g
 
 ### Standard Create Read and Delete functions
 
+#### Proc-macro utils
 * create utils module in login_server/src/utils/mod.rs
 * create a proc-macro library in utils folder with $ cargo new proc-macros --lib $
 * specify the proc-macros crate as a dependency in login_server/Cargo.toml
@@ -76,10 +77,12 @@ If you dont know what is going on in that file then he has another video about g
 * create derive macros .../proc-macros/src/lib.rs for getting struct fields and to_hashmap
 * create coresponding traits as the derive macro in login_server/src/utils/traits.rs
 
+#### Basic user controllers
 * add crate uuid -F v4 as the id's in the database are of that type.
 * create the standard crd functions in login_server/src/data_access/base_crud.rs
 * use the standard in a controller f.ex as in login_server/src/data_access/user_controller/mod.rs
 * also create views for your table as in login_server/src/views/user.rs
+* group the views through traits so the basic functions can be used to retrive different types
 * creates tests as in login_server/src/data_access/user_controller/tests.rs
 
 ### Make test scripts
@@ -91,12 +94,14 @@ If you dont know what is going on in that file then he has another video about g
 
 ### Encryption functions
 
+#### Password hash
 * create crypt module like login_server/src/crypt/mod.rs
 * add argon2 crate
 * create function to hash password like in login_server/src/crypt/mod.rs
 * create public functions to validate and encrypt passwords like login_server/src/crypt/password.rs
 * test password encryption and validation like in login_server/src/crypt/tests.rs
 
+#### Jwt logic
 * add blake2, time and base64 crates
 * create base64 utils like in login_server/src/utils/base64.rs
 * create encrypt with black2b function like in login_server/src/crypt/mod.rs
@@ -106,10 +111,15 @@ If you dont know what is going on in that file then he has another video about g
 * add a token key and durration to env like in login_server/.cargo/config.toml
 * get the env variables and extract them in appropriate format like in login_server/src/get_env.rs
 * implement new and validate jwt token functions like in login_server/src/crypt/jwt.rs
-* test the jwt functions like in 
-
+* test the jwt functions like in login_server/src/data_access/db_setup/tests.rs
 
 ### Login and Register functions
+
+* create user for auth struct like in login_server/src/views/user.rs
+* create register function like in login_server/src/data_access/user_controller/mod.rs
+* create user for login and validation structs in login_server/src/views/user.rs
+* create login function like in login_server/src/data_access/user_controller/mod.rs
+* test the new login and register functions like in login_server/src/data_access/user_controller/tests.rs
 
 ### gRPC with layers and middlewars
 

@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests;
-mod password;
-mod jwt;
+pub mod password;
+pub mod jwt;
 
 use argon2::{
     password_hash::SaltString, 

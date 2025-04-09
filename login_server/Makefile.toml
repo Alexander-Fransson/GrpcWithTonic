@@ -1,14 +1,17 @@
 [tasks.utils_test]
 command = "cargo"
 description = "run tests in utils module"
-args = ["test", "--", "utils::tests::"]
+args = ["test", "--", "utils::tests::","--quiet"]
+env = { "RUST_BACKTRACE" = "0" } # to prevent a long row of backtraces, remov eif your interested
 
 [tasks.data_access_test]
 command = "cargo"
 description = "run tests in data_access module"
-args = ["test", "--", "data_access::"]
+args = ["test", "--", "data_access::","--quiet"]
+env = { "RUST_BACKTRACE" = "0" }
 
 [tasks.crypt_test]
 command = "cargo"
 description = "run tests in crypt module"
-args = ["test", "--", "crypt::tests::"]
+args = ["test", "--", "crypt::tests::","--quiet"]
+env = { "RUST_BACKTRACE" = "0" }

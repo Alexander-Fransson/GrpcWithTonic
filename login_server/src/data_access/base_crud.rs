@@ -36,26 +36,33 @@ where
     Ok(row)
 }
 
-pub async fn create<C, T>(dam: &DataAccessManager, data: T) -> Result<Uuid>
+pub async fn create<C, T, R>(dam: &DataAccessManager, data: T) -> Result<R>
 where
     C: Controller,
     T: AsHashMap,
+    R: for<'a> FromRow<'a, PgRow> + Unpin + Send + FieldsAsStrings 
 {
     let connection = dam.connect();
     let hashmap = data.to_hashmap();
     let keys: Vec<_> = hashmap.keys().into_iter().map(|k| k.to_string()).collect();
     let values: Vec<_> = hashmap.values().into_iter().map(|v| format!("'{}'", v)).collect();
+    let returning = R::get_struct_fields();
 
-    let sql = format!("INSERT INTO {} ({}) VALUES ({}) RETURNING id", C::TABLE_NAME, keys.join(", "), values.join(", "));
+    let sql = format!("INSERT INTO {} ({}) VALUES ({}) RETURNING {}",
+        C::TABLE_NAME, 
+        keys.join(", "), 
+        values.join(", "),
+        returning.join(", ")
+    );
 
     println!("sql: {}", sql);
 
-    let (id,) = sqlx::query_as::<_, (Uuid,)>(&sql)
+    let res: R = sqlx::query_as(&sql)
     .fetch_one(connection)
     .await
     .map_err(|e| Error::QueryFailed(e))?;
 
-    Ok(id)
+    Ok(res)
 }
 
 pub async fn delete<C>(dam: &DataAccessManager, id: Uuid) -> Result<()> where C: Controller {
