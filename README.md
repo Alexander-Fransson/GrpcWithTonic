@@ -130,7 +130,9 @@ If you dont know what is going on in that file then he has another video about g
 // something cool would be a proc-macro that generated an automatic probuf definition form structs
 * create a buld file like login_server/build.rs
 * include the protobuf like in login_server/src/main.rs
-* 
+* implement from error for the tonic status as in login_server/src/error.rs
+* create an authentication service and implement it like in login_server/src/grpc/services/user.rs
+* serve the service like in login_server/src/main.rs in serve_server
 
 ### Add middlewares to grpc
 

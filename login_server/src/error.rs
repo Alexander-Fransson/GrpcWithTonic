@@ -1,3 +1,4 @@
+use tonic::Status;
 
 pub type Result<T> = core::result::Result<T, Error>;
 
@@ -30,6 +31,23 @@ pub enum Error {
 
     // general
     FailedToParse(String),
+
+    // main
+    FailedToStartGrpcServer(String),
+}
+
+// To turn the error into a tonic status
+impl From<Error> for tonic::Status {
+    fn from(error: Error) -> Self {
+        match error {
+          Error::PasswordInvalid => Status::permission_denied("password invalid"),
+          Error::JwtTokenWrongFormat |
+          Error::InvalidJwtTokenSignature |
+          Error::JwtTokenExpired => Status::unauthenticated("jwt token invalid"),
+          Error::EntityNotFound => Status::not_found("entity not found"),
+          _ => Status ::internal("internal server error"),
+        }
+    }
 }
 
 impl core::fmt::Display for Error {
