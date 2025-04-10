@@ -20,6 +20,7 @@ base64 = "0.22.1"
 time = "0.3.41"
 tonic = "0.13.0"
 prost = "0.13.5"
+tonic-reflection = "0.13.0"
 
 [dev-dependencies]
 serial_test = "3.2.0"

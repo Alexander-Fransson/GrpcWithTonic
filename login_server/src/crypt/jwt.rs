@@ -94,18 +94,6 @@ pub(crate) fn create_blake2b_signature(
     encrypt_blake_2b_mac_512(jwt_key, &enc_content)
 }
 
-/*************  ✨ Windsurf Command ⭐  *************/
-    /// Creates a jwt token from the given user_id, salt, and jwt_key.
-    /// 
-    /// The jwt token is a string which is the concatenation of the user_id, expiration time and signature.
-    /// The expiration time is the current time plus the given durration in seconds.
-    /// The signature is the blake2b hash of the user_id and salt, encrypted with the jwt_key.
-    /// 
-    /// # Errors
-    /// 
-    /// The function returns an error if the expiration time fails to be calculated, or if the blake2b hash fails to be calculated.
-    ///
-/*******  9dbfa47c-577e-43ae-bb63-2412ba707ed4  *******/
 pub(crate) fn create_jwt_token(user_id: Uuid, salt: &str, jwt_key: &[u8], durration_sec: f64) -> Result<JwtToken> {
     let signature = create_blake2b_signature(&user_id, salt, jwt_key)?;
     let expiration = now_utc_plus_sec_str(durration_sec)?;

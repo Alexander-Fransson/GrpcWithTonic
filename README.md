@@ -131,8 +131,17 @@ If you dont know what is going on in that file then he has another video about g
 * create a buld file like login_server/build.rs
 * include the protobuf like in login_server/src/main.rs
 * implement from error for the tonic status as in login_server/src/error.rs
-* create an authentication service and implement it like in login_server/src/grpc/services/user.rs
+* create an authentication service and implement it like in login_server/src/grpc/services/auth.rs
 * serve the service like in login_server/src/main.rs in serve_server
+
+#### Reflection
+* add tonic-reflection crate 
+* set file descriptor path in login_server/build.rs
+* create file discriptor set const in login_server/src/proto.rs
+* add file descriptor service in login_server/src/main.rs
+* test the grpc like in login_server/src/integration_tests.rs
+
+enable reflection and test it out 
 
 ### Add middlewares to grpc
 

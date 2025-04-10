@@ -34,6 +34,7 @@ pub enum Error {
 
     // main
     FailedToStartGrpcServer(String),
+    FailedToBuildFileDescriptorService(String),
 }
 
 // To turn the error into a tonic status

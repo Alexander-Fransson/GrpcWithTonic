@@ -15,3 +15,9 @@ command = "cargo"
 description = "run tests in crypt module"
 args = ["test", "--", "crypt::tests::","--quiet"]
 env = { "RUST_BACKTRACE" = "0" }
+
+[tasks.integration_test]
+command = "cargo"
+description = "run integration tests"
+args = ["test", "--", "integration_tests::","--quiet"]
+env = { "RUST_BACKTRACE" = "0" }

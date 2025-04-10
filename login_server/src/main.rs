@@ -6,10 +6,12 @@ mod utils;
 mod views;
 mod crypt;
 mod grpc;
+mod proto;
 
-mod proto {
-    tonic::include_proto!("login_server");
-}
+#[cfg(test)]
+mod integration_tests;
+
+use std::net::SocketAddr;
 
 pub use error::{Error, Result};
 
@@ -19,6 +21,8 @@ use log::tracing::enable_tracing;
 use tonic::transport::Server;
 use tracing::info;
 use proto::authenticate_server::AuthenticateServer;
+
+pub const SERVER_ADRESS: &str = "127.0.0.1:50051";
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -30,15 +34,26 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn serve_server() -> Result<()> {
-    let addr = "[::1]:50051".parse()
+pub async fn serve_server() -> Result<()> {
+    let addr: SocketAddr = SERVER_ADRESS.parse()
     .map_err(|_| Error::FailedToParse("server address".to_string()))?;
+
+    let port = addr.to_string();
+
+    info!("Starting server on port {}", port);
 
     let dam = DataAccessManager::new().await?;
     let auth = AuthService { dam };
 
+    let file_descriptor_service = 
+    tonic_reflection::server::Builder::configure()
+    .register_encoded_file_descriptor_set(proto::FILE_DESCRIPTOR_SET)
+    .build_v1()
+    .map_err(|e| Error::FailedToBuildFileDescriptorService(e.to_string()))?;
+
     Server::builder()
     .accept_http1(true)
+    .add_service(file_descriptor_service)
     .add_service(AuthenticateServer::new(auth))
     .serve(addr)
     .await
