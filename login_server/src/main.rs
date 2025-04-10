@@ -14,7 +14,7 @@ mod proto {
 pub use error::{Error, Result};
 
 use data_access::DataAccessManager;
-use grpc::services::user::AuthService;
+use grpc::services::auth::AuthService;
 use log::tracing::enable_tracing;
 use tonic::transport::Server;
 use tracing::info;

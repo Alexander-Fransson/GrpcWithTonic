@@ -19,7 +19,9 @@ pub struct AuthService {
 #[tonic::async_trait]
 impl Authenticate for AuthService {
     async fn login(&self, request: Request<LoginRequest>) -> Result<Response<LoginResponse>, Status> {
-        
+
+        // remember to validate in middlewars for the other services
+
         let inner_request = request.into_inner();
 
         let user_for_login = UserForLogin {
