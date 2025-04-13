@@ -9,6 +9,8 @@ mod proto {
     tonic::include_file_descriptor_set!("calculator_descriptor");
 }
 
+mod tower_middleware_tutorial;
+
 use proto::calculator_server::{
     Calculator, // the trait generated requiering the functions specified in the .proto file 
     CalculatorServer // the generated server which turns the service implementing the calculator trait into a grpc server
@@ -19,6 +21,8 @@ use tonic::transport::Server;
 // for middlewares
 use tonic::metadata::MetadataValue;
 use tonic::{Request, Status};
+
+use crate::tower_middleware_tutorial::Timeout;
 
 // thread safe value which can be shared between threads
 type State = std::sync::Arc<tokio::sync::RwLock<u64>>;
@@ -81,6 +85,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         uses: state.clone()
     };
 
+    // this is the implementation of the timeout middleware
+    let timeout_layer = tower::layer::layer_fn(|s| {
+        Timeout::new(s, std::time::Duration::from_secs(5))
+    });
+
     // enables reflection
     let service = 
     tonic_reflection::server::Builder::configure()
@@ -90,6 +99,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Server::builder()
     .accept_http1(true)
     .layer(tower_http::cors::CorsLayer::permissive())
+    .layer(timeout_layer)
     .add_service(service)
     .add_service(CalculatorServer::new(calc))
 

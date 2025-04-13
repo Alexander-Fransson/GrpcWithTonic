@@ -45,6 +45,10 @@ To run grpc on the web without a proxy server or such we add the tonic-wenb and 
 
 If you dont know what is going on in that file then he has another video about grpcs in general
 
+# Day 3
+
+
+
 ## Login Server
 
 ### Database Access
@@ -141,7 +145,9 @@ If you dont know what is going on in that file then he has another video about g
 * add file descriptor service in login_server/src/main.rs
 * test the grpc like in login_server/src/integration_tests.rs
 
-enable reflection and test it out 
-
 ### Add middlewares to grpc
+* create middleware module under grpc like login_server/src/grpc/middlewares/mod.rs
+* add tower -F full crate
+
+
 
