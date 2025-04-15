@@ -147,7 +147,8 @@ If you dont know what is going on in that file then he has another video about g
 
 ### Add middlewares to grpc
 * create middleware module under grpc like login_server/src/grpc/middlewares/mod.rs
-* add tower -F full crate
+* add tonic-middleware crate and http crate since tonic use that for its services
+* create a request context stuct as in login_server/src/request_context.rs
 
 
 

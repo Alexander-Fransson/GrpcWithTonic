@@ -7,6 +7,7 @@ mod views;
 mod crypt;
 mod grpc;
 mod proto;
+mod request_context;
 
 #[cfg(test)]
 mod integration_tests;
@@ -53,6 +54,7 @@ pub async fn serve_server() -> Result<()> {
 
     Server::builder()
     .accept_http1(true)
+    //.layer(AuthLayer)
     .add_service(file_descriptor_service)
     .add_service(AuthenticateServer::new(auth))
     .serve(addr)
