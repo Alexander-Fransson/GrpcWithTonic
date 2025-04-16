@@ -1,53 +1,38 @@
 use std::str::FromStr;
-use http::{Request, Response};
-use tonic::async_trait;
+use http::Request;
+use tonic::{async_trait, Status};
 use tonic::body::Body;
-use tonic_middleware::{Middleware, ServiceBound};
+use tonic_middleware::RequestInterceptor;
 use crate::crypt::jwt::JwtToken;
 use crate::views::user::UserForAuth;
 use crate::data_access::{DataAccessManager, UserController};
 use crate::request_context::RequestContext;
 use super::super::JWT_METADATA_KEY;
 
-#[derive(Default, Clone)]
-pub struct MetricsMiddleware;
-
-
+// ensure token is sliding
+// also test 
 
 #[derive(Clone)]
-pub struct MwImplantRequestContext{
-    dam: DataAccessManager
+pub struct InterceptorImplantingRequestContext {
+    pub dam: DataAccessManager
 }
 
 #[async_trait]
-impl<S> Middleware<S> for MwImplantRequestContext
-where 
-    S: ServiceBound,
-    S::Future: Send,
-{
-    async fn call(
-        &self, 
-        mut req: Request<Body>, 
-        mut service: S,
-    ) -> Result<Response<Body>, S::Error> {
+impl RequestInterceptor for InterceptorImplantingRequestContext {
+    async fn intercept(&self, mut req: Request<Body>) -> Result<Request<Body>, Status> {
+        
+        let header_values = req.headers()
+        .get(JWT_METADATA_KEY)
+        .map(|v| v.to_str());
 
-        // make the result better
+        if let Some(Ok(jwt_str)) = header_values {
 
-        let auth_header = req.headers()
-        .get(JWT_METADATA_KEY);
+            let rc = request_context_from_jwt(&self.dam, jwt_str).await?;
+            req.extensions_mut().insert(rc);
 
-        if let Some(header_value) = auth_header {
-            let token_str = header_value.to_str().unwrap_or_default();
-            let rc = request_context_from_jwt(&self.dam, token_str).await;
-
-            if let Ok(rc) = rc {
-                req.extensions_mut().insert(rc);
-            }
         }
 
-        let result = service.call(req).await?;
-        
-        Ok(result)
+        Ok(req)
     }
 }
 

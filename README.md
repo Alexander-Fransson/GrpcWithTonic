@@ -47,7 +47,7 @@ If you dont know what is going on in that file then he has another video about g
 
 # Day 3
 
-
+The tonic request pipeline builds on the tower ecosystem so to implemet an asyncronus middleware you could make a tower middleware which is documented in https://github.com/tower-rs/tower/blob/master/guides/building-a-middleware-from-scratch.md. It is none the less quite verbose so a quicker way is to use the tower_middleware library. This enables the request interceptor and middleware traits https://github.com/teimuraz/tonic-middleware/blob/main/README.md. Middleware enables async access to the call function which envelops the service call, howeveer the error in this is quite esoteric and it might even be the case that the call function is not allowed to fail. If you just want to make a change before the request reaches the handler you can also add an asyncronus interfceptor which is porvided.
 
 ## Login Server
 

@@ -17,9 +17,10 @@ use std::net::SocketAddr;
 pub use error::{Error, Result};
 
 use data_access::DataAccessManager;
-use grpc::services::auth::AuthService;
+use grpc::{middlewares::mw_implant_request_context::InterceptorImplantingRequestContext, services::auth::AuthService};
 use log::tracing::enable_tracing;
 use tonic::transport::Server;
+use tonic_middleware::RequestInterceptorLayer;
 use tracing::info;
 use proto::authenticate_server::AuthenticateServer;
 
@@ -44,7 +45,8 @@ pub async fn serve_server() -> Result<()> {
     info!("Starting server on port {}", port);
 
     let dam = DataAccessManager::new().await?;
-    let auth = AuthService { dam };
+    let auth = AuthService { dam: dam.clone() };
+    let implant_request_context = InterceptorImplantingRequestContext { dam: dam.clone() };
 
     let file_descriptor_service = 
     tonic_reflection::server::Builder::configure()
@@ -54,7 +56,7 @@ pub async fn serve_server() -> Result<()> {
 
     Server::builder()
     .accept_http1(true)
-    //.layer(AuthLayer)
+    .layer(RequestInterceptorLayer::new(implant_request_context))
     .add_service(file_descriptor_service)
     .add_service(AuthenticateServer::new(auth))
     .serve(addr)
