@@ -2,10 +2,10 @@ use uuid::Uuid;
 use crate::{
     crypt::{
         jwt::{
-            create_blake2b_signature, 
+            create_jwt_signature, 
             create_jwt_token, 
             hash_for_jwt, 
-            validate_jwt_token_by_signature_and_expiration
+            validate_jwt_by_signature_and_expiration_and_reset_durration
         }, password::{
             hash_password, 
             validate_password
@@ -77,14 +77,19 @@ fn test_create_sign_and_validate_jwt_token() -> Result<()> {
 
     let token = create_jwt_token(user_id, salt, &jwt_key, durration_sec)?;
 
-    let reference_signature = create_blake2b_signature(&user_id, salt, &jwt_key)?;
+    let reference_signature = create_jwt_signature(&user_id, salt, &jwt_key)?;
 
     assert_eq!(&token.signature, &reference_signature);
     assert_eq!(token.user_id, user_id);
     assert!(token.expiration <= now_utc_plus_sec_str(durration_sec)?);
     assert_eq!(token.expiration, token.expiration);
 
-    validate_jwt_token_by_signature_and_expiration(&token, salt, &jwt_key)?;
+    validate_jwt_by_signature_and_expiration_and_reset_durration(
+        &token, 
+        salt, 
+        &jwt_key, 
+        durration_sec
+    )?;
 
     Ok(())
 }

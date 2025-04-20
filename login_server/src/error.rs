@@ -1,3 +1,4 @@
+use http::header::ToStrError;
 use tonic::Status;
 
 pub type Result<T> = core::result::Result<T, Error>;
@@ -22,6 +23,7 @@ pub enum Error {
 
     //middleware
     MissingRequestContext,
+    MissingJwtHeader,
 
     //utils
     FailedToDecodeB64(String),
@@ -52,6 +54,12 @@ impl From<Error> for tonic::Status {
           Error::EntityNotFound => Status::not_found("entity not found"),
           _ => Status ::internal("internal server error"),
         }
+    }
+}
+
+impl From<ToStrError> for Error {
+    fn from(e: ToStrError) -> Self {
+        Error::FailedToParse(e.to_string())
     }
 }
 

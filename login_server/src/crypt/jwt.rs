@@ -27,10 +27,13 @@ impl JwtToken {
         create_jwt_token(user_id, salt, jwt_key, durration_sec)
     }
 
-    pub fn validate(&self, salt: &str) -> Result<()> {
+    pub fn validate_and_reset_durration(&self, salt: &str) -> Result<Self> {
         let jwt_key = &get_env_static().JWT_KEY;
+        let durration_sec = get_env_static().JWT_DURRATION_SEC;
 
-        validate_jwt_token_by_signature_and_expiration(self, salt, jwt_key)
+        let new_token = validate_jwt_by_signature_and_expiration_and_reset_durration(self, salt, jwt_key, durration_sec)?;
+        
+        Ok(new_token)
     }
 }
 
@@ -78,7 +81,7 @@ pub fn hash_for_jwt(key: &[u8], content: &EncryptionContent) -> Result<String> {
     Ok(format!("#1#{}", hash))
 }
 
-pub(crate) fn create_blake2b_signature(
+pub(crate) fn create_jwt_signature(
     user_id: &Uuid,
     salt: &str,
     jwt_key: &[u8]    
@@ -91,11 +94,11 @@ pub(crate) fn create_blake2b_signature(
         salt: salt.to_string()
     };
 
-    encrypt_blake_2b_mac_512(jwt_key, &enc_content)
+    hash_for_jwt(jwt_key, &enc_content)
 }
 
 pub(crate) fn create_jwt_token(user_id: Uuid, salt: &str, jwt_key: &[u8], durration_sec: f64) -> Result<JwtToken> {
-    let signature = create_blake2b_signature(&user_id, salt, jwt_key)?;
+    let signature = create_jwt_signature(&user_id, salt, jwt_key)?;
     let expiration = now_utc_plus_sec_str(durration_sec)?;
 
     Ok(JwtToken {
@@ -105,13 +108,14 @@ pub(crate) fn create_jwt_token(user_id: Uuid, salt: &str, jwt_key: &[u8], durrat
     })
 }
 
-pub (crate) fn validate_jwt_token_by_signature_and_expiration(
+pub (crate) fn validate_jwt_by_signature_and_expiration_and_reset_durration(
     token: &JwtToken, 
     salt: &str, 
-    jwt_key: &[u8]
-) -> Result<()> {
+    jwt_key: &[u8],
+    durration_sec: f64
+) -> Result<JwtToken> {
 
-    let reference_signature = create_blake2b_signature(
+    let reference_signature = create_jwt_signature(
         &token.user_id, 
         salt, 
         jwt_key
@@ -127,5 +131,9 @@ pub (crate) fn validate_jwt_token_by_signature_and_expiration(
         return Err(Error::JwtTokenExpired);
     }
 
-    Ok(())
+    Ok(JwtToken { 
+        user_id: token.user_id, 
+        expiration: now_utc_plus_sec_str(durration_sec)?, 
+        signature: reference_signature 
+    })
 }
