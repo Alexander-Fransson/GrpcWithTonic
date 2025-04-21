@@ -17,12 +17,21 @@ use std::net::SocketAddr;
 pub use error::{Error, Result};
 
 use data_access::DataAccessManager;
-use grpc::{middlewares::mw_implant_request_context_and_renew_jwt::MiddlewareImplantingRequestContextAndRenewingJwt, services::auth::AuthService};
+use grpc::{
+    middlewares::{
+        MiddlewareImplantingRequestContextAndRenewingJwt,
+        check_request_context_interceptor
+    },
+    services::{
+        AuthService,
+        UserService
+    }
+};
 use log::tracing::enable_tracing;
 use tonic::transport::Server;
 use tonic_middleware::MiddlewareLayer;
 use tracing::info;
-use proto::authenticate_server::AuthenticateServer;
+use proto::{authenticate_server::AuthenticateServer, user_server::UserServer};
 
 pub const SERVER_ADRESS: &str = "127.0.0.1:50051";
 
@@ -45,8 +54,9 @@ pub async fn serve_server() -> Result<()> {
     info!("Starting server on port {}", port);
 
     let dam = DataAccessManager::new().await?;
-    let auth = AuthService { dam: dam.clone() };
+    let auth_service = AuthService { dam: dam.clone() };
     let implant_request_context = MiddlewareImplantingRequestContextAndRenewingJwt { dam: dam.clone() };
+    let user_service = UserService { dam: dam.clone() };
 
     let file_descriptor_service = 
     tonic_reflection::server::Builder::configure()
@@ -58,7 +68,11 @@ pub async fn serve_server() -> Result<()> {
     .accept_http1(true)
     .layer(MiddlewareLayer::new(implant_request_context))
     .add_service(file_descriptor_service)
-    .add_service(AuthenticateServer::new(auth))
+    .add_service(AuthenticateServer::new(auth_service))
+    .add_service(UserServer::with_interceptor(
+        user_service,
+        check_request_context_interceptor)
+    )
     .serve(addr)
     .await
     .map_err(|e| Error::FailedToStartGrpcServer(e.to_string()))?;

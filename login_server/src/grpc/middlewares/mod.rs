@@ -4,6 +4,9 @@ pub mod mw_require_request_context;
 use tonic::body::Body;
 use http::{HeaderValue, Response, StatusCode};
 
+pub use mw_implant_request_context_and_renew_jwt::MiddlewareImplantingRequestContextAndRenewingJwt;
+pub use mw_require_request_context::check_request_context_interceptor;
+
 pub fn generate_generic_http_error_for_grpc() -> Response<Body> {
     
     let mut res = Response::new(Body::empty());

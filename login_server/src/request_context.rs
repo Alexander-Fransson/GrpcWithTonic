@@ -2,13 +2,13 @@ use uuid::Uuid;
 
 #[derive(Debug, Clone)]
 pub struct RequestContext {
-    pub _user_id: Uuid
+    pub user_id: Uuid
 }
 
 impl RequestContext {
-    pub fn new(_user_id: Uuid) -> Self {
+    pub fn new(user_id: Uuid) -> Self {
         Self {
-            _user_id
+            user_id
         }
     }
 }

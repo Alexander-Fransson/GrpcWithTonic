@@ -1,10 +1,10 @@
-use tonic::Request;
+use tonic::{Request, Status};
 use crate::{
     request_context::RequestContext, 
-    Error, Result
+    Error
 };
 
-pub fn check_request_context_interceptor(req: Request<()>) -> Result<Request<()>> {
+pub fn check_request_context_interceptor(req: Request<()>) -> Result<Request<()>, Status> {
     
     req.extensions()
     .get::<RequestContext>()

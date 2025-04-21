@@ -3,7 +3,7 @@ package user;
 
 service User {
     rpc GetYourself(GetYourselfRequest) returns (GetYourselfResponse);
-    rpc Delete(DeleteRequest) returns (DeleteResponse);
+    rpc DeleteYourself(DeleteYourselfRequest) returns (DeleteYourselfResponse);
 }
 
 message GetYourselfRequest {}
@@ -13,8 +13,6 @@ message GetYourselfResponse {
     string email = 3;
 }
 
-message DeleteRequest {
-    string id = 1;
-}
-message DeleteResponse {}
+message DeleteYourselfRequest {}
+message DeleteYourselfResponse {}
 
