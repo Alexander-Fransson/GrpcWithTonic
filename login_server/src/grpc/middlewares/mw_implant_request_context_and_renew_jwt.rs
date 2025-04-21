@@ -35,13 +35,16 @@ where
         .map(|v| v.to_str());
 
         let jwt_str = if let Some(Ok(jwt_str)) = header_values {
+
             if let Ok(new_jwt) = validate_and_renew_jwt(&self.dam, jwt_str).await {
+
                 req.extensions_mut().insert(RequestContext::new(new_jwt.user_id));
                 let jwt_str = new_jwt.to_string();
+
                 Some(jwt_str)
-            } else {
-                return Ok(generate_generic_http_error_for_grpc())
-            }
+
+            } else {return Ok(generate_generic_http_error_for_grpc())}
+
         } else {None};
 
         let mut res = service.call(req).await?;

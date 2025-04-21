@@ -1,5 +1,7 @@
+use tonic::include_proto;
 
-tonic::include_proto!("login_server");
+include_proto!("auth");
+include_proto!("user");
 
 pub (crate) const FILE_DESCRIPTOR_SET: &[u8] = 
-    tonic::include_file_descriptor_set!("login_server_descriptor");
+    tonic::include_file_descriptor_set!("descriptor");

@@ -26,6 +26,8 @@ pub struct UserForValidate {
     pub encryption_salt: Uuid
 }
 
+#[allow(dead_code)]
+// this is not used in the main code
 #[derive(FieldsAsStrings, FromRow, Debug)]
 pub struct FullUser {
     pub id: Uuid,

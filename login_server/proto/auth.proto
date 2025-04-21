@@ -1,6 +1,5 @@
 syntax = "proto3";
-
-package login_server;
+package auth;
 
 service Authenticate {
     rpc Login(LoginRequest) returns (LoginResponse);

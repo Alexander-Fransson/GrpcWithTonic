@@ -7,10 +7,15 @@ fn main() -> Result<(), Box<dyn Error>> {
     
     // enables reflection by generating a descriptor
     // compiles out protobuf into the file descriptor set
-    tonic_build::configure()
-    .file_descriptor_set_path(out_dir.join("login_server_descriptor.bin"))
-    .compile_protos(&["proto/login_server.proto"], &["proto/"])?;
+    let proto_files = &[
+        "proto/auth.proto",
+        "proto/user.proto",
+        ];
 
-    tonic_build::compile_protos("proto/login_server.proto")?;
+    tonic_build::configure()
+    .file_descriptor_set_path(out_dir.join("descriptor.bin"))
+    .compile_protos(proto_files, &["proto/"])?;
+
+    //tonic_build::compile_protos("proto/login_server.proto")?;
     Ok(())
 }
