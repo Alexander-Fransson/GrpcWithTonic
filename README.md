@@ -149,6 +149,10 @@ The tonic request pipeline builds on the tower ecosystem so to implemet an async
 * create middleware module under grpc like login_server/src/grpc/middlewares/mod.rs
 * add tonic-middleware crate and http crate since tonic use that for its services
 * create a request context stuct as in login_server/src/request_context.rs
-
-
-
+* create a function returning a default error res as in login_server/src/grpc/middlewares/mod.rs
+* create a middleware for implanting request and renewing the jwt token context as in login_server/src/grpc/middlewares/mw_implant_request_context_and_renew_jwt.rs
+* create an interceptor requiering the request context like in login_server/src/grpc/middlewares/mw_require_request_context.rs
+* make proto services that require the request context like login_server/proto/user.proto
+* implement those services like in login_server/src/grpc/services/user.rs
+* add the middleware as a layer and implement the restricted services with the interceptor as in login_server/src/main.rs
+* test the services like in login_server/src/integration_tests.rs

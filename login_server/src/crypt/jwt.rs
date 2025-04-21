@@ -13,6 +13,7 @@ use super::{
     encrypt_blake_2b_mac_512
 };
 
+#[derive(Debug)]
 pub struct JwtToken {
     pub user_id: Uuid,
     pub expiration: String,
@@ -52,7 +53,9 @@ impl FromStr for JwtToken {
             signature_str
         ) = (token_parts[0], token_parts[1], token_parts[2]);
 
-        let user_id = Uuid::from_str(b64_user_id)
+        let user_id = b64_to_string(b64_user_id)?;
+
+        let user_id = Uuid::from_str(&user_id)
         .map_err(|e| Error::FailedToParse(e.to_string()))?;
 
         let expiration = b64_to_string(b64_expiration)?;

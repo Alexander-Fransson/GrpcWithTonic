@@ -9,6 +9,7 @@ use crate::data_access::{DataAccessManager, UserController};
 use crate::request_context::RequestContext;
 use super::super::JWT_METADATA_KEY;
 use super::generate_generic_http_error_for_grpc;
+use tracing::debug;
 
 
 use tonic_middleware::Middleware;
@@ -36,14 +37,19 @@ where
 
         let jwt_str = if let Some(Ok(jwt_str)) = header_values {
 
-            if let Ok(new_jwt) = validate_and_renew_jwt(&self.dam, jwt_str).await {
+            let validated_jwt = validate_and_renew_jwt(&self.dam, jwt_str).await;
+
+            if let Ok(new_jwt) = validated_jwt {
 
                 req.extensions_mut().insert(RequestContext::new(new_jwt.user_id));
                 let jwt_str = new_jwt.to_string();
 
                 Some(jwt_str)
 
-            } else {return Ok(generate_generic_http_error_for_grpc())}
+            } else {
+                debug!("VALIDATION ERROR IN REQUEST CONTEXT MIDDLEWARE: {:?}", validated_jwt);
+                return Ok(generate_generic_http_error_for_grpc())
+            }
 
         } else {None};
 
